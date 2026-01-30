@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Predicción Rendimiento Académico</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container my-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Predicción de Rendimiento Académico</h4>
+        </div>
+
+        <div class="card-body">
+            <form id="predictionForm">
+
+                <!-- GENERO -->
+                <div class="mb-3">
+                    <label class="form-label">Género</label>
+                    <select class="form-select" id="ESTU_GENERO" required>
+                        <option value="">Seleccione</option>
+                        <option value="F">F</option>
+                        <option value="M">M</option>
+                    </select>
+                </div>
+
+                <!-- MUNICIPIO -->
+                <div class="mb-3">
+                    <label class="form-label">Municipio de residencia</label>
+                    <select class="form-select" id="ESTU_MCPIO_RESIDE" required>
+                        <option value="BOGOTA">BOGOTA</option>
+                        <option value="MEDELLIN">MEDELLIN</option>
+                    </select>
+                </div>
+
+                <!-- HORAS TRABAJO -->
+                <div class="mb-3">
+                    <label class="form-label">Horas semanales de trabajo</label>
+                    <select class="form-select" id="ESTU_HORASSEMANATRABAJA">
+                        <option value="0">0</option>
+                        <option value="Menos de 10 horas">Menos de 10 horas</option>
+                        <option value="Entre 11 y 20 horas">Entre 11 y 20 horas</option>
+                        <option value="Entre 21 y 30 horas">Entre 21 y 30 horas</option>
+                        <option value="Más de 30 horas">Más de 30 horas</option>
+                    </select>
+                </div>
+
+                <!-- EXTERIOR -->
+                <div class="mb-3">
+                    <label class="form-label">¿Reside en el exterior?</label>
+                    <select class="form-select" id="ESTU_EXTERIOR">
+                        <option value="si">Sí</option>
+                        <option value="no" selected>No</option>
+                    </select>
+                </div>
+
+                <!-- METODO PROGRAMA -->
+                <div class="mb-3">
+                    <label class="form-label">Método del programa</label>
+                    <select class="form-select" id="ESTU_METODO_PRGM">
+                        <option value="Presencial">Presencial</option>
+                        <option value="DISTANCIA VITUAL">Distancia virtual</option>
+                    </select>
+                </div>
+
+                <!-- PREPARACIÓN SABER 11 -->
+                <div class="mb-3">
+                    <label class="form-label">Preparación Saber 11</label>
+                    <select class="form-select" id="ESTU_COMOCAPACITOEXAMENSB11">
+                        <option value="Curso preicfes">Curso preicfes</option>
+                        <option value="Repasó por cuenta propia">Repasó por cuenta propia</option>
+                        <option value="Tomó un curso de preparación">Tomó un curso de preparación</option>
+                    </select>
+                </div>
+
+                <!-- INSTITUCIÓN -->
+                <div class="mb-3">
+                    <label class="form-label">Origen institución</label>
+                    <select class="form-select" id="INST_ORIGEN">
+                        <option value="Oficial">Oficial</option>
+                        <option value="No oficial">No oficial</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Carácter académico</label>
+                    <select class="form-select" id="INST_CARACTER_ACADEMICO">
+                        <option value="Universidad">Universidad</option>
+                        <option value="Institución Universitaria">Institución Universitaria</option>
+                    </select>
+                </div>
+
+                <!-- MATRÍCULA -->
+                <div class="mb-3">
+                    <label class="form-label">Valor matrícula</label>
+                    <select class="form-select" id="ESTU_VALORMATRICULAUNIVERSIDAD">
+                        <option value="No pagó matrícula">No pagó matrícula</option>
+                        <option value="Menos de 500 mil">Menos de 500 mil</option>
+                        <option value="Entre 500 mil y menos de 1 millón">Entre 500 mil y menos de 1 millón</option>
+                        <option value="Entre 1 millón y menos de 2.5 millones" selected>
+                            Entre 1 millón y menos de 2.5 millones
+                        </option>
+                        <option value="Más de 7 millones">Más de 7 millones</option>
+                    </select>
+                </div>
+
+                <!-- ESTRATO -->
+                <div class="mb-3">
+                    <label class="form-label">Estrato vivienda</label>
+                    <select class="form-select" id="FAMI_ESTRATOVIVIENDA">
+                        <option value="Estrato 1">Estrato 1</option>
+                        <option value="Estrato 2">Estrato 2</option>
+                        <option value="Estrato 3" selected>Estrato 3</option>
+                        <option value="Estrato 4">Estrato 4</option>
+                    </select>
+                </div>
+
+                <!-- EDUCACIÓN PADRES -->
+                <div class="mb-3">
+                    <label class="form-label">Educación padre</label>
+                    <select class="form-select" id="FAMI_EDUCACIONPADRE">
+                        <option value="Secundaria (Bachillerato) completa" selected>
+                            Secundaria (Bachillerato) completa
+                        </option>
+                        <option value="Educación profesional completa">
+                            Educación profesional completa
+                        </option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Educación madre</label>
+                    <select class="form-select" id="FAMI_EDUCACIONMADRE">
+                        <option value="Educación profesional completa" selected>
+                            Educación profesional completa
+                        </option>
+                        <option value="Secundaria (Bachillerato) completa">
+                            Secundaria (Bachillerato) completa
+                        </option>
+                    </select>
+                </div>
+
+                <!-- CHECKS SI / NO -->
+                <hr>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Computador</label>
+                        <select class="form-select" id="FAMI_TIENECOMPUTADOR">
+                            <option value="si" selected>Si</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Internet</label>
+                        <select class="form-select" id="FAMI_TIENEINTERNET">
+                            <option value="si" selected>Si</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr>
+
+                <button type="submit" class="btn btn-primary w-100 mt-3">
+                    Predecir
+                </button>
+            </form>
+
+            <div id="result" class="alert alert-info mt-4 d-none"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById("predictionForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const payload = {
+        ESTU_GENERO: ESTU_GENERO.value,
+        ESTU_MCPIO_RESIDE: ESTU_MCPIO_RESIDE.value,
+        ESTU_HORASSEMANATRABAJA: ESTU_HORASSEMANATRABAJA.value,
+        ESTU_EXTERIOR: ESTU_EXTERIOR.value,
+        ESTU_METODO_PRGM: ESTU_METODO_PRGM.value,
+        ESTU_COMOCAPACITOEXAMENSB11: ESTU_COMOCAPACITOEXAMENSB11.value,
+        ESTU_PAGOMATRICULACREDITO: "no",
+        ESTU_PAGOMATRICULAPROPIO: "si",
+        ESTU_PAGOMATRICULAPADRES: "no",
+        ESTU_PAGOMATRICULABECA: "no",
+        INST_ORIGEN: INST_ORIGEN.value,
+        INST_CARACTER_ACADEMICO: INST_CARACTER_ACADEMICO.value,
+        FAMI_TIENEAUTOMOVIL: "no",
+        FAMI_TIENECOMPUTADOR: FAMI_TIENECOMPUTADOR.value,
+        FAMI_TIENEHORNOMICROOGAS: "si",
+        FAMI_TIENEMOTOCICLETA: "no",
+        FAMI_TIENESERVICIOTV: "si",
+        FAMI_TIENEINTERNET: FAMI_TIENEINTERNET.value,
+        FAMI_TIENELAVADORA: "si",
+        FAMI_ESTRATOVIVIENDA: FAMI_ESTRATOVIVIENDA.value,
+        FAMI_EDUCACIONPADRE: FAMI_EDUCACIONPADRE.value,
+        FAMI_EDUCACIONMADRE: FAMI_EDUCACIONMADRE.value,
+        ESTU_VALORMATRICULAUNIVERSIDAD: ESTU_VALORMATRICULAUNIVERSIDAD.value
+    };
+
+    const response = await fetch("http://127.0.0.1:5000/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+
+    const resultDiv = document.getElementById("result");
+    resultDiv.classList.remove("d-none");
+    resultDiv.innerHTML = `<strong>Resultado:</strong> ${data.label}`;
+});
+</script>
+
+</body>
+</html>
