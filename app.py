@@ -19,7 +19,7 @@ feature_names = joblib.load("feature_names.pkl")
 # Diccionarios de mapeo
 # =========================
 MAP_MCPIO = {"BOGOTA": 0, "MEDELLIN": 1}
-MAP_SINO = {"si": 1, "no": 0}
+MAP_SINO = {"Si": 1, "No": 0}
 
 MAP_EDUCACION = {
     'No sabe': 0, 'No Aplica': 1, 'Ninguno': 2,
