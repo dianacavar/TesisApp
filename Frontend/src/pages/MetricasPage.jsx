@@ -32,33 +32,21 @@ function MetricasPage() {
     },
   ];
 
-  const variables = [
-    'FAMI_ESTRATOVIVIENDA',
-    'FAMI_EDUCACIONMADRE',
-    'FAMI_EDUCACIONPADRE',
-    'ESTU_VALORMATRICULAUNIVERSIDAD',
-    'INST_CARACTER_ACADEMICO',
-    'ESTU_HORASSEMANATRABAJA',
-  ];
-
+  
   return (
     <>
       <header className="page-header">
         <div className="page-header-badge">📈 Métricas del modelo</div>
         <h1>Desempeño y características</h1>
         <p>
-          Resumen de las métricas de evaluación del modelo Random Forest y de
-          las variables más importantes que aprendió durante el entrenamiento.
+          Métricas de evaluación del modelo Random Forest.
         </p>
       </header>
 
       <div className="app-card">
         <section className="content-section">
           <h2>📊 Métricas de evaluación</h2>
-          <p className="muted">
-            Estos valores se llenarán con los resultados reales del notebook de
-            entrenamiento.
-          </p>
+          
           <div className="metrics-grid">
             {metrics.map((m) => (
               <div key={m.label} className="metric-card">

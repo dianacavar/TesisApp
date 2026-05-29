@@ -5,7 +5,7 @@ function AcercaPage() {
         <div className="page-header-badge">📖 Acerca de la tesis</div>
         <h1>Sobre el proyecto</h1>
         <p>
-          Trabajo de grado enfocado en aplicar técnicas de Machine Learning para
+          Trabajo de grado enfocado en aplicar técnicas de mineria de datos para
           predecir el rendimiento académico de los estudiantes en la prueba
           Saber Pro a partir de variables sociodemográficas, familiares y
           académicas.
@@ -18,8 +18,7 @@ function AcercaPage() {
           <p>
             Construir un modelo de clasificación capaz de estimar el nivel de
             desempeño (bajo, medio o alto) de un estudiante en la prueba Saber
-            Pro, utilizando información disponible antes de presentar el
-            examen.
+            Pro, segun variables del cuestionario socioeconomico.
           </p>
         </section>
 

@@ -28,7 +28,6 @@ CORS(
 # en el preprocesamiento la inyectamos con un valor por defecto fijo.
 MODEL_PATH = "modelo_random_forest_bogota_se.pkl"
 FEATURES_PATH = "feature_names_con_ciudad.pkl"
-DEFAULT_MCPIO_RESIDE = "BOGOTA"
 
 model = joblib.load(MODEL_PATH)
 feature_names = joblib.load(FEATURES_PATH)
@@ -38,8 +37,8 @@ print(f"[Modelo cargado] {MODEL_PATH} ({len(feature_names)} features)")
 # =========================
 # Diccionarios de mapeo
 # =========================
-MAP_MCPIO = {"BOGOTA": 0, "MEDELLIN": 1}
-MAP_SINO = {"Si": 1, "No": 0}
+
+MAP_SINO = {"si": 1, "no": 0}
 
 MAP_EDUCACION = {
     'No sabe': 0, 'No Aplica': 1, 'Ninguno': 2,
@@ -85,14 +84,6 @@ def preprocess_input(data: dict) -> pd.DataFrame:
     # Eliminar variable objetivo si viene por error
     df = df.drop(columns=['PUNT_GLOBAL'], errors='ignore')
 
-    # ESTU_MCPIO_RESIDE ya no se pide al usuario, pero el modelo entrenado
-    # con ciudad la requiere. La inyectamos con un valor fijo y la mapeamos.
-    if 'ESTU_MCPIO_RESIDE' not in df.columns:
-        df['ESTU_MCPIO_RESIDE'] = DEFAULT_MCPIO_RESIDE
-    df['ESTU_MCPIO_RESIDE'] = (
-        df['ESTU_MCPIO_RESIDE'].astype(str).str.upper().map(MAP_MCPIO).fillna(0)
-    )
-
     # Normalización
     df['ESTU_VALORMATRICULAUNIVERSIDAD'] = df['ESTU_VALORMATRICULAUNIVERSIDAD'].replace(
         {'Mas de 7 millones': 'Más de 7 millones'}
@@ -121,18 +112,35 @@ def preprocess_input(data: dict) -> pd.DataFrame:
     df['ESTU_VALORMATRICULAUNIVERSIDAD'] = df['ESTU_VALORMATRICULAUNIVERSIDAD'].map(MAP_MATRICULA)
     df['FAMI_ESTRATOVIVIENDA'] = df['FAMI_ESTRATOVIVIENDA'].map(MAP_ESTRATO)
 
-    # One-Hot Encoding
-    nominales = [
-        'INST_ORIGEN', 'INST_CARACTER_ACADEMICO',
-        'ESTU_METODO_PRGM', 'ESTU_COMOCAPACITOEXAMENSB11',
-        'ESTU_GENERO'
-    ]
+    # One-Hot Encoding manual
+    # ESTU_GENERO — referencia: 'F'
+    df['ESTU_GENERO_M'] = (df['ESTU_GENERO'] == 'M').astype(int)
 
-    df = pd.get_dummies(df, columns=nominales, drop_first=True)
+    # ESTU_METODO_PRGM — referencia: 'DISTANCIA TRADICIONAL'
+    df['ESTU_METODO_PRGM_DISTANCIA VITUAL'] = (df['ESTU_METODO_PRGM'] == 'DISTANCIA VITUAL').astype(int)
+    df['ESTU_METODO_PRGM_PRESENCIAL']       = (df['ESTU_METODO_PRGM'] == 'PRESENCIAL').astype(int)
 
-    # Boolean → int
-    bool_cols = df.select_dtypes(include='bool').columns
-    df[bool_cols] = df[bool_cols].astype(int)
+    # ESTU_COMOCAPACITOEXAMENSB11 — referencia: 'No se preparó'
+    df['ESTU_COMOCAPACITOEXAMENSB11_Repasó por cuenta propia']     = (df['ESTU_COMOCAPACITOEXAMENSB11'] == 'Repasó por cuenta propia').astype(int)
+    df['ESTU_COMOCAPACITOEXAMENSB11_Tomó un curso de preparación'] = (df['ESTU_COMOCAPACITOEXAMENSB11'] == 'Tomó un curso de preparación').astype(int)
+
+    # INST_ORIGEN — referencia: 'NO OFICIAL - CORPORACIÓN'
+    df['INST_ORIGEN_NO OFICIAL - FUNDACIÓN'] = (df['INST_ORIGEN'] == 'NO OFICIAL - FUNDACIÓN').astype(int)
+    df['INST_ORIGEN_OFICIAL DEPARTAMENTAL']  = (df['INST_ORIGEN'] == 'OFICIAL DEPARTAMENTAL').astype(int)
+    df['INST_ORIGEN_OFICIAL MUNICIPAL']      = (df['INST_ORIGEN'] == 'OFICIAL MUNICIPAL').astype(int)
+    df['INST_ORIGEN_OFICIAL NACIONAL']       = (df['INST_ORIGEN'] == 'OFICIAL NACIONAL').astype(int)
+    df['INST_ORIGEN_REGIMEN ESPECIAL']       = (df['INST_ORIGEN'] == 'REGIMEN ESPECIAL').astype(int)
+
+    # INST_CARACTER_ACADEMICO — referencia: 'INSTITUCIÓN TECNOLÓGICA'
+    df['INST_CARACTER_ACADEMICO_INSTITUCIÓN UNIVERSITARIA'] = (df['INST_CARACTER_ACADEMICO'] == 'INSTITUCIÓN UNIVERSITARIA').astype(int)
+    df['INST_CARACTER_ACADEMICO_TÉCNICA PROFESIONAL']       = (df['INST_CARACTER_ACADEMICO'] == 'TÉCNICA PROFESIONAL').astype(int)
+    df['INST_CARACTER_ACADEMICO_UNIVERSIDAD']               = (df['INST_CARACTER_ACADEMICO'] == 'UNIVERSIDAD').astype(int)
+
+    # Eliminar columnas originales ya codificadas
+    df = df.drop(columns=[
+        'ESTU_GENERO', 'ESTU_METODO_PRGM', 'ESTU_COMOCAPACITOEXAMENSB11',
+        'INST_ORIGEN', 'INST_CARACTER_ACADEMICO'
+    ], errors='ignore')
 
     # Relleno defensivo
     df = df.fillna(0)

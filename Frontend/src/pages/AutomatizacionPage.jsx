@@ -151,7 +151,7 @@ function AutomatizacionPage() {
     <>
       <header className="page-header">
         <div className="page-header-badge">🧪 Pruebas masivas</div>
-        <h1>Automatización de predicciones</h1>
+        <h1>Predicciones</h1>
         <p>
           Genera N entradas aleatorias y obtén su predicción + probabilidad
           desde el modelo. Al final puedes descargar todos los resultados como

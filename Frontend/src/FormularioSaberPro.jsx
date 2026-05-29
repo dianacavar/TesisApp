@@ -142,7 +142,7 @@ function FormularioSaberPro() {
                 { value: 'Repasó por cuenta propia', label: 'Repasó por cuenta propia' },
                 {
                   value: 'No realizó ninguna prueba de preparación',
-                  label: 'No realizó preparación',
+                  label: 'No realizó ninguna prueba de preparación',
                 },
               ]}
             />
@@ -226,7 +226,7 @@ function FormularioSaberPro() {
         label: 'Institución',
         icon: '🏛️',
         title: 'Información de la institución',
-        description: 'Características de la universidad o instituto.',
+        description: 'Características de la institución de educación superior.',
         render: () => (
           <div className="fields-grid">
             <SelectField
@@ -254,16 +254,7 @@ function FormularioSaberPro() {
                 { value: 'UNIVERSIDAD', label: 'Universidad' },
                 { value: 'INSTITUCIÓN UNIVERSITARIA', label: 'Institución universitaria' },
                 { value: 'INSTITUCIÓN TECNOLÓGICA', label: 'Institución tecnológica' },
-                { value: 'TÉCNICA PROFESIONAL', label: 'Técnica profesional' },
-                {
-                  value: 'INSTITUCIÓN DE EDUCACIÓN SUPERIOR',
-                  label: 'Institución de educación superior',
-                },
-                {
-                  value: 'INSTITUCION DE EDUCACION MEDIA',
-                  label: 'Institución de educación media',
-                },
-                { value: 'ESCUELA NORMAL SUPERIOR', label: 'Escuela Normal Superior' },
+                { value: 'TÉCNICA PROFESIONAL', label: 'Técnica profesional' },                
               ]}
             />
           </div>
